@@ -1,6 +1,6 @@
 <html lang="en"><head>
 	<meta charset="UTF-8">
-	<title>Tables Page</title>
+	<title>Reservations</title>
 
 	<!-- Latest compiled and minified CSS & JS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -28,21 +28,13 @@
 			<div class="col-lg-12">
 
 				<!-- Current Tables in Use -->
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Current Reservations</h4>
-					</div>
-					<div class="panel-body" id="tableSection">
-					<div class="well" id="tableWell-01"><h2><span class="label label-primary">1</span> | 34235</h2></div><div class="well" id="tableWell-11"><h2><span class="label label-primary">2</span> | 1231</h2></div><div class="well" id="tableWell-21"><h2><span class="label label-primary">3</span> | 001</h2></div><div class="well" id="tableWell-31"><h2><span class="label label-primary">4</span> | 12e1244</h2></div><div class="well" id="tableWell-41"><h2><span class="label label-primary">5</span> | </h2></div></div>
+				<h2>Reservations</h2>
+				<div class="reservations">
 				</div>
-
+					
 				<!-- Waiting List Panel -->
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Waiting List</h4>
-					</div>
-					<div class="panel-body" id="waitlistSection">
-					<div class="well" id="waitlistWell-01"><h2><span class="label label-primary">1</span> | joso19</h2></div><div class="well" id="waitlistWell-11"><h2><span class="label label-primary">2</span> | orianacd</h2></div><div class="well" id="waitlistWell-21"><h2><span class="label label-primary">3</span> | 2345</h2></div><div class="well" id="waitlistWell-31"><h2><span class="label label-primary">4</span> | 12345</h2></div><div class="well" id="waitlistWell-41"><h2><span class="label label-primary">5</span> | evwhite2</h2></div><div class="well" id="waitlistWell-51"><h2><span class="label label-primary">6</span> | 111222</h2></div><div class="well" id="waitlistWell-61"><h2><span class="label label-primary">7</span> | 12</h2></div><div class="well" id="waitlistWell-71"><h2><span class="label label-primary">8</span> | lizm</h2></div><div class="well" id="waitlistWell-81"><h2><span class="label label-primary">9</span> | 123</h2></div><div class="well" id="waitlistWell-91"><h2><span class="label label-primary">10</span> | 213213</h2></div><div class="well" id="waitlistWell-101"><h2><span class="label label-primary">11</span> | whoooo</h2></div><div class="well" id="waitlistWell-111"><h2><span class="label label-primary">12</span> | dasfd</h2></div><div class="well" id="waitlistWell-121"><h2><span class="label label-primary">13</span> | 12345654</h2></div></div>
+				<h2>WaitList</h2>
+				<div class="waitlist">
 				</div>
 			</div>
 		</div>
@@ -51,10 +43,60 @@
 	    <footer class="footer">
 	      <div class="container">
 	      	<p>Control Panel</p>
-	        <p><a href="#" id="clear">Clear Table</a> | <a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API Wait List</a></p>
+	        <p><a href="#" id="clear">Clear Table</a> | <a href="/api/view">API Table Link</a> | <a href="/api/waitlist">API Wait List</a></p>
 	      </div>
 	    </footer>
 
 	</div>
+	<script>
+			$.get("/api/view").then(reservations => {
+				console.log(reservations);
+	
+				//parse data
+				let tableContainer = "";
+				reservations.forEach(reservation => {
+					const customerName= reservation.rsvpName;
+					const customerEmail= reservation.email;
+					const customerPhone = reservation.phone;
+					const customerID = reservation.id;
 
+					let tableDiv =
+					`<div style= "margin-top:45px">${customerName}</div>
+					<div>${customerEmail}</div>
+					<div>${customerPhone}</div>
+					<div>${customerID}</div>`
+					
+					
+					tableContainer +=tableDiv;
+				});
+
+				$(".reservations").html(tableContainer)
+
+			});
+	
+			$.get("/api/waitList").then(waitList =>{
+				console.log(waitList)
+
+				let tableContainer = "";
+				waitList.forEach(waitList =>{
+					const customerName= waitList.rsvpName;
+					const customerEmail= waitList.email;
+					const customerPhone = waitList.phone;
+					const customerID = waitList.id;
+
+					let tableDiv =
+					`<div style="margin-top:25px">${customerName}</div>
+					<div>${customerEmail}</div>
+					<div>${customerPhone}</div>
+					<div>${customerID}</div>`
+					
+					
+					tableContainer +=tableDiv;
+				});
+
+				$(".waitlist").html(tableContainer);
+			});
+	</script>
+
+	
 </body></html>

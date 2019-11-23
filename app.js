@@ -54,7 +54,7 @@ app.get("/reserve", function(req, res) {
 
 //API Routes
 
-app.get("/api/reservations", function(req, res){
+app.get("/api/view", function(req, res){
   return res.json(reservations);
 });
 
@@ -62,11 +62,12 @@ app.get("/api/waitList", function(req, res){
   return res.json(waitList);
 });
 
-app.post("/api/tables", function(req, res){
+//post new rsvp
+app.post("/api/view", function(req, res){
   var newRSVP = req.body;
   waitList.push(newRSVP);
   res.json(false);
-})
+});
 
 //listen on port
 app.listen(PORT, function() {
