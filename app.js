@@ -63,10 +63,15 @@ app.get("/api/waitList", function(req, res){
 });
 
 //post new rsvp
-app.post("/api/view", function(req, res){
+app.post("/api/waitList", function(req, res){
   var newRSVP = req.body;
-  waitList.push(newRSVP);
-  res.json(false);
+  if(reservations.length<10){
+    reservations.push(newRSVP);
+    res.json(true);
+  }else{
+    waitList.push(newRSVP);
+    res.json(false);
+  }
 });
 
 //listen on port
