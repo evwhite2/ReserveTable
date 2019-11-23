@@ -73,7 +73,7 @@
 				$(".reservations").html(tableContainer)
 
 			});
-	
+
 			$.get("/api/waitList").then(waitList =>{
 				console.log(waitList)
 
@@ -95,6 +95,10 @@
 				});
 
 				$(".waitlist").html(tableContainer);
+			});
+
+			$("#clear").on("click", event =>{
+				$.get("/api/clear/");
 			});
 	</script>
 

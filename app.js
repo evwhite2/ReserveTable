@@ -5,35 +5,9 @@ const path = require("path");
 var app = express();
 var PORT = 8000;
 
-var reservations = [
-  {
-    rsvpName: "Ellen",
-    email: "example@example.com",
-    phone:"815-123-4567",
-    id:"12345"
-  },
-  {
-    rsvpName: "Cater",
-    email: "example@example.com",
-    phone:"815-123-4567",
-    id:"12346"
-  }
-];
+var reservations = [];
 
-var waitList = [
-  {
-    rsvpName: "Raquel",
-    email: "example@example.com",
-    phone:"815-123-4567",
-    id:"12347"
-  },
-  {
-    rsvpName: "Annissa",
-    email: "example@example.com",
-    phone:"815-123-4567",
-    id:"12348"
-  }
-]
+var waitList = [];
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -65,13 +39,18 @@ app.get("/api/waitList", function(req, res){
 //post new rsvp
 app.post("/api/waitList", function(req, res){
   var newRSVP = req.body;
-  if(reservations.length<10){
+  if(reservations.length<2){
     reservations.push(newRSVP);
     res.json(true);
   }else{
     waitList.push(newRSVP);
     res.json(false);
   }
+});
+
+app.post("/api/clear", (req, res)=>{
+  reservations.length =0;
+  res.json(true);
 });
 
 //listen on port
